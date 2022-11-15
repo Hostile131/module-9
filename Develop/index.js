@@ -43,7 +43,7 @@ ${test}
 ## Questions
 
 - [GitHub profile](https://www.github.com/${githubUsername})
-- [${emailAddress}](${emailAddress})`
+- [${emailAddress}](mailto:${emailAddress})`
 
 inquirer
     .prompt([
