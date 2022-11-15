@@ -1,13 +1,123 @@
-// TODO: Include packages needed for this application
+const inquirer = require('inquirer');
+const fs = require('fs');
 
-// TODO: Create an array of questions for user input
-const questions = [];
+const generateREADME = ({ appName, descriptionOne, descriptionTwo, descriptionThree, descriptionFour, installation, usage, license, contributing, test, githubUsername, emailAddress }) =>
+`# ${appName}
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+## Description
 
-// TODO: Create a function to initialize app
-function init() {}
+- Motivation for this project: ${descriptionOne}
+- Reason for this project: ${descriptionTwo}
+- Problem(s) solved by this project: ${descriptionThree}
+- Lessons learned: ${descriptionFour}
 
-// Function call to initialize app
-init();
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Questions](#questions)
+
+## Installation
+
+${installation}
+
+## Usage
+
+${usage}
+
+## License
+
+${license}
+
+## Contributing
+
+${contributing}
+
+## Tests
+
+${test}
+
+## Questions
+
+- [GitHub profile](https://www.github.com/${githubUsername})
+- [${emailAddress}](${emailAddress})`
+
+inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'appName',
+            message: 'What is the name of your application?',
+        },
+        {
+            type: 'input',
+            name: 'descriptionOne',
+            message: 'Briefly describe your application. What was your motivation for making this application?',
+        },
+        {
+            type: 'input',
+            name: 'descriptionTwo',
+            message: 'Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")'
+        },
+        {
+            type: 'input',
+            name: 'descriptionThree',
+            message: 'What problem does this application solve?'
+        },
+        {
+            type: 'input',
+            name: 'descriptionFour',
+            message: 'What did you learn?'
+        },
+        {
+            type: 'input',
+            name: 'installation',
+            message: 'How do you install your application?',
+        },
+        {
+            type: 'input',
+            name: 'usage',
+            message: 'How is your application used?',
+        },
+        {
+            type: 'list',
+            name: 'license',
+            message: 'What license is your application under?',
+            choices: ['GNU General Public License v3.0', 'MIT License', 'Mozilla Public License 2.0', 'The Unilicense']
+        },
+        {
+            type: 'input',
+            name: 'contributing',
+            message: 'How would you like others to contribute to this project?',
+        },
+        {
+            type: 'input',
+            name: 'test',
+            message: 'How is your application tested?'
+        },
+        {
+            type: 'input',
+            name: 'githubUsername',
+            message: 'What is your GitHub username?'
+        },
+        {
+            type: 'input',
+            name: 'emailAddress',
+            message: 'What is your e-mail address?'
+        },
+        {
+            type: 'input',
+            name: 'questions',
+            message: 'What is the best way for you to be reached with any further questions?'
+        },
+    ])
+    .then((answers) => {
+        const readmePageContent = generateREADME(answers);
+
+        fs.writeFile('README.md', readmePageContent, (err) =>
+            err ? console.log(err) : console.log('Successfully created README.md!')
+        );
+    });
