@@ -1,8 +1,8 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const generateREADME = ({ appName, descriptionOne, descriptionTwo, descriptionThree, descriptionFour, installation, usage, license, contributing, test, githubUsername, emailAddress }) =>
-`# ${appName}
+const generateREADME = ({ appName, descriptionOne, descriptionTwo, descriptionThree, descriptionFour, installation, usage, license, licenseURL, contributing, test, githubUsername, emailAddress }) =>
+    `# ${appName}
 
 ## Description
 
@@ -30,7 +30,7 @@ ${usage}
 
 ## License
 
-${license}
+[${license}](${licenseURL})
 
 ## Contributing
 
@@ -86,7 +86,7 @@ inquirer
             type: 'list',
             name: 'license',
             message: 'What license is your application under?',
-            choices: ['GNU General Public License v3.0', 'MIT License', 'Mozilla Public License 2.0', 'The Unilicense']
+            choices: ['GNU General Public License v3.0', 'MIT License', 'Mozilla Public License 2.0', 'The Unlicense']
         },
         {
             type: 'input',
@@ -115,9 +115,24 @@ inquirer
         },
     ])
     .then((answers) => {
+        if (answers.license === 'GNU General Public License v3.0') {
+            answers.licenseURL = 'https://www.gnu.org/licenses/gpl-3.0.en.html'
+        }
+        else if (answers.license === 'MIT License') {
+            answers.licenseURL = 'https://opensource.org/licenses/MIT'
+        }
+        else if (answers.license === 'Mozilla Public License 2.0') {
+            answers.licenseURL = 'https://www.mozilla.org/en-US/MPL/2.0/'
+        }
+        else if (answers.license === 'The Unlicense') {
+            answers.licenseURL = 'https://unlicense.org/'
+        };
+
         const readmePageContent = generateREADME(answers);
 
         fs.writeFile('README.md', readmePageContent, (err) =>
             err ? console.log(err) : console.log('Successfully created README.md!')
         );
     });
+
+
